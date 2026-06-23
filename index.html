@@ -18,17 +18,15 @@
       color: #1f2937;
     }
 
-    .sidebar {
-      width: 280px;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background: #111827;
-      color: white;
-      padding: 32px 24px;
-      overflow-y: auto;
-    }
+.sidebar {
+width: 280px;
+min-height: 100vh;
+background: #111827;
+color: white;
+padding: 32px 24px;
+overflow-y: auto;
+flex-shrink: 0;
+}
 
     .sidebar h2 {
       margin: 0 0 8px;
@@ -52,11 +50,11 @@
       color: white;
     }
 
-    .content {
-      margin-left: 280px;
-      padding: 48px;
-      max-width: 1200px;
-    }
+   .content {
+padding: 48px;
+width: 100%;
+max-width: 1200px;
+}
 
     section {
       margin-bottom: 56px;
