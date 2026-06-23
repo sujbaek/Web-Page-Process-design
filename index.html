@@ -1,10 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QA Process Design</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -12,22 +18,20 @@
       color: #1f2937;
     }
 
-    .layout {
-      display: flex;
-    }
-
     .sidebar {
-      width: 260px;
+      width: 280px;
       height: 100vh;
       position: fixed;
+      top: 0;
+      left: 0;
       background: #111827;
       color: white;
       padding: 32px 24px;
+      overflow-y: auto;
     }
 
     .sidebar h2 {
-      margin-top: 0;
-      margin-bottom: 8px;
+      margin: 0 0 8px;
     }
 
     .sidebar p {
@@ -49,12 +53,10 @@
     }
 
     .content {
-margin-left: 340px;
-padding: 48px;
-max-width: 1100px;
-width: calc(100% - 340px);
-}
-
+      margin-left: 280px;
+      padding: 48px;
+      max-width: 1200px;
+    }
 
     section {
       margin-bottom: 56px;
@@ -72,7 +74,8 @@ width: calc(100% - 340px);
 
     .subtitle {
       color: #6b7280;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
+      line-height: 1.6;
     }
 
     .card {
@@ -83,12 +86,6 @@ width: calc(100% - 340px);
       margin-bottom: 18px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
     .badge {
       display: inline-block;
       background: #e0f2fe;
@@ -97,15 +94,109 @@ width: calc(100% - 340px);
       border-radius: 999px;
       font-size: 13px;
       margin-right: 6px;
+      margin-bottom: 12px;
     }
 
-    pre {
-      background: #0f172a;
-      color: #e5e7eb;
-      padding: 20px;
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .ok {
+      border-left: 6px solid #22c55e;
+    }
+
+    .risk {
+      border-left: 6px solid #ef4444;
+    }
+
+    .step-label {
+      text-align: center;
+      font-size: 13px;
+      color: #6b7280;
+      margin: 10px 0;
+    }
+
+    .arrow {
+      text-align: center;
+      font-size: 28px;
+      color: #6b7280;
+      margin: 6px 0;
+    }
+
+    .box {
       border-radius: 12px;
-      overflow-x: auto;
-      line-height: 1.6;
+      padding: 18px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .blue {
+      background: #eaf4ff;
+      border: 1px solid #93c5fd;
+      color: #1d4ed8;
+    }
+
+    .purple {
+      background: #f0edff;
+      border: 1px solid #a5b4fc;
+      color: #4338ca;
+    }
+
+    .green {
+      background: #e7f8f1;
+      border: 1px solid #6ee7b7;
+      color: #047857;
+    }
+
+    .yellow {
+      background: #fff3dd;
+      border: 1px solid #f59e0b;
+      color: #92400e;
+    }
+
+    .red {
+      background: #fff0ec;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    .pass {
+      background: #ecf9e8;
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+
+    .fail {
+      background: #fff1f2;
+      border: 1px solid #fca5a5;
+      color: #b91c1c;
+    }
+
+    .gray {
+      background: #f5f3ef;
+      border: 1px solid #d6d3d1;
+      color: #57534e;
+    }
+
+    .indigo {
+      background: #eef2ff;
+      border: 1px solid #a5b4fc;
+      color: #3730a3;
+    }
+
+    .box span {
+      display: block;
+      font-size: 14px;
+      margin-top: 4px;
+      opacity: 0.9;
     }
 
     table {
@@ -126,77 +217,90 @@ width: calc(100% - 340px);
       background: #f3f4f6;
     }
 
-    .risk {
-      border-left: 6px solid #ef4444;
-    }
-
-    .ok {
-      border-left: 6px solid #22c55e;
-    }
-
     footer {
       color: #6b7280;
       font-size: 13px;
       padding-bottom: 40px;
     }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .content {
+        margin-left: 0;
+        padding: 24px;
+      }
+
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
+
 </head>
 
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <h2>QA Process Design</h2>
-      <p>Web QA Automation Specification</p>
+  <aside class="sidebar">
+    <h2>QA Process Design</h2>
+    <p>Web QA Automation Specification</p>
 
-      <a href="#overview">01. 개요</a>
-      <a href="#goal">02. 목표</a>
-      <a href="#architecture">03. 아키텍처</a>
-      <a href="#flow">04. 실행 흐름</a>
-      <a href="#tc">05. 테스트케이스</a>
-      <a href="#risk">06. 리스크</a>
-      <a href="#next">07. Next Step</a>
-    </aside>
+```
+<a href="#overview">01. 개요</a>
+<a href="#goal">02. 목표</a>
+<a href="#architecture">03. 아키텍처</a>
+<a href="#flow">04. 실행 흐름</a>
+<a href="#tc">05. 테스트케이스</a>
+<a href="#risk">06. 리스크</a>
+<a href="#next">07. Next Step</a>
+```
 
-    <main class="content">
-      <section id="overview">
-        <h1>Web QA Automation Process Design</h1>
-        <p class="subtitle">
-          기획서, 디자인, 테스트케이스 기반의 QA 자동화 프로세스 설계 문서
-        </p>
+  </aside>
 
-        <div class="card">
-          <span class="badge">QA</span>
-          <span class="badge">Automation</span>
-          <span class="badge">GitHub Pages</span>
+  <main class="content">
+    <section id="overview">
+      <h1>Web QA Automation Process Design</h1>
+      <p class="subtitle">
+        기획서, 디자인, 테스트케이스 기반의 QA 자동화 프로세스 설계 문서
+      </p>
 
-          <p>
-            본 문서는 웹 페이지 QA 자동화를 위한 기본 프로세스, 테스트 범위,
-            실행 구조, 리스크 및 개선 방향을 정리하기 위한 문서입니다.
-          </p>
-        </div>
-      </section>
+```
+  <div class="card">
+    <span class="badge">QA</span>
+    <span class="badge">Automation</span>
+    <span class="badge">GitHub Pages</span>
 
-      <section id="goal">
-        <h2>02. 목표</h2>
+    <p>
+      본 문서는 웹 페이지 QA 자동화를 위한 기본 프로세스, 테스트 범위,
+      실행 구조, 리스크 및 개선 방향을 정리하기 위한 문서입니다.
+    </p>
+  </div>
+</section>
 
-        <div class="grid">
-          <div class="card ok">
-            <h3>TC 표준화</h3>
-            <p>기획서와 디자인 기준으로 테스트케이스를 구조화합니다.</p>
-          </div>
+<section id="goal">
+  <h2>02. 목표</h2>
 
-          <div class="card ok">
-            <h3>자동 실행</h3>
-            <p>반복 검증 항목을 Playwright, Cypress 등으로 자동화합니다.</p>
-          </div>
+  <div class="grid-3">
+    <div class="card ok">
+      <h3>TC 표준화</h3>
+      <p>기획서와 디자인 기준으로 테스트케이스를 구조화합니다.</p>
+    </div>
 
-          <div class="card ok">
-            <h3>리포트 생성</h3>
-            <p>Pass / Fail / Block 결과를 자동으로 기록합니다.</p>
-          </div>
-        </div>
-      </section>
+    <div class="card ok">
+      <h3>자동 실행</h3>
+      <p>반복 검증 항목을 Playwright, Cypress 등으로 자동화합니다.</p>
+    </div>
 
+    <div class="card ok">
+      <h3>리포트 생성</h3>
+      <p>Pass / Fail / Block 결과를 자동으로 기록합니다.</p>
+    </div>
+  </div>
+</section>
 
 <section id="architecture">
   <h2>03. 아키텍처</h2>
@@ -207,90 +311,79 @@ width: calc(100% - 340px);
   </p>
 
   <div class="card">
-    <div style="text-align:center; font-size:13px; color:#6b7280; margin-bottom:12px;">
-      ① 입력 문서
+    <div class="step-label">① 입력 문서</div>
+
+    <div class="grid-3">
+      <div class="box blue">
+        <strong>기획서 / 스펙</strong>
+        <span>고지 내용 · 시행일 · 대상</span>
+      </div>
+
+      <div class="box purple">
+        <strong>디자인 (Figma 등)</strong>
+        <span>레이아웃 · 폰트 · 컬러</span>
+      </div>
+
+      <div class="box green">
+        <strong>테스트케이스 (TC)</strong>
+        <span>TC ID · 기대값 · 조건</span>
+      </div>
     </div>
 
+    <div class="arrow">↓</div>
 
-<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-bottom:24px;">
-  <div style="background:#eaf4ff; border:1px solid #93c5fd; border-radius:10px; padding:18px; text-align:center;">
-    <strong style="color:#1d4ed8;">기획서 / 스펙</strong><br>
-    <span style="color:#2563eb;">고지 내용, 시행일, 대상</span>
-  </div>
+    <div class="step-label">② AI 파싱 · 분석</div>
 
-  <div style="background:#f0edff; border:1px solid #a5b4fc; border-radius:10px; padding:18px; text-align:center;">
-    <strong style="color:#4338ca;">디자인 (Figma 등)</strong><br>
-    <span style="color:#4f46e5;">레이아웃, 폰트, 컬러</span>
-  </div>
+    <div class="box yellow">
+      <strong>Claude API — 문서 파싱 & TC 생성</strong>
+      <span>필수 키워드 추출 · 검증 규칙 정의 · 자동 TC 보완</span>
+    </div>
 
-  <div style="background:#e7f8f1; border:1px solid #6ee7b7; border-radius:10px; padding:18px; text-align:center;">
-    <strong style="color:#047857;">테스트케이스 (TC)</strong><br>
-    <span style="color:#059669;">TC ID, 기대값, 조건</span>
-  </div>
-</div>
+    <div class="arrow">↓</div>
 
-<div style="text-align:center; font-size:28px; color:#6b7280;">↓</div>
+    <div class="step-label">③ 테스트 코드 자동 생성</div>
 
-<div style="text-align:center; font-size:13px; color:#6b7280; margin:8px 0;">
-  ② AI 파싱 · 분석 (Claude API)
-</div>
+    <div class="grid-2">
+      <div class="box red">
+        <strong>Playwright 테스트 코드</strong>
+        <span>텍스트 · 날짜 · 링크 검증</span>
+      </div>
 
-<div style="background:#fff3dd; border:1px solid #f59e0b; border-radius:10px; padding:20px; text-align:center; margin-bottom:24px;">
-  <strong style="color:#92400e; font-size:18px;">Claude API — 문서 파싱 & TC 생성</strong><br>
-  <span style="color:#a16207;">필수 키워드 추출 · 검증 규칙 정의 · 자동 TC 보완</span>
-</div>
+      <div class="box red">
+        <strong>시각적 비교 테스트</strong>
+        <span>스크린샷 diff · 레이아웃 검증</span>
+      </div>
+    </div>
 
-<div style="text-align:center; font-size:28px; color:#6b7280;">↓</div>
+    <div class="arrow">↓</div>
 
-<div style="text-align:center; font-size:13px; color:#6b7280; margin:8px 0;">
-  ③ 테스트 코드 자동 생성
-</div>
+    <div class="step-label">④ 실행 · 결과</div>
 
-<div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:28px; margin-bottom:24px;">
-  <div style="background:#fff0ec; border:1px solid #fca5a5; border-radius:10px; padding:20px; text-align:center;">
-    <strong style="color:#991b1b; font-size:17px;">Playwright 테스트 코드</strong><br>
-    <span style="color:#b91c1c;">텍스트 · 날짜 · 링크 검증</span>
-  </div>
+    <div class="grid-3">
+      <div class="box pass">
+        <strong>PASS 리포트</strong>
+        <span>HTML · JSON 리포트</span>
+      </div>
 
-  <div style="background:#fff0ec; border:1px solid #fca5a5; border-radius:10px; padding:20px; text-align:center;">
-    <strong style="color:#991b1b; font-size:17px;">시각적 비교 테스트</strong><br>
-    <span style="color:#b91c1c;">스크린샷 diff · 레이아웃 검증</span>
-  </div>
-</div>
+      <div class="box fail">
+        <strong>FAIL 알림</strong>
+        <span>Slack · 이메일 발송</span>
+      </div>
 
-<div style="text-align:center; font-size:13px; color:#6b7280; margin-bottom:8px;">
-  ④ 실행 · 결과
-</div>
+      <div class="box gray">
+        <strong>스크린샷 저장</strong>
+        <span>증적 · 회귀 비교용</span>
+      </div>
+    </div>
 
-<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-bottom:24px;">
-  <div style="background:#ecf9e8; border:1px solid #86efac; border-radius:10px; padding:18px; text-align:center;">
-    <strong style="color:#166534; font-size:17px;">PASS 리포트</strong><br>
-    <span style="color:#15803d;">HTML · JSON 리포트</span>
-  </div>
+    <div class="arrow">↓</div>
 
-  <div style="background:#fff1f2; border:1px solid #fca5a5; border-radius:10px; padding:18px; text-align:center;">
-    <strong style="color:#b91c1c; font-size:17px;">FAIL 알림</strong><br>
-    <span style="color:#dc2626;">Slack · 이메일 발송</span>
-  </div>
+    <div class="step-label">⑤ CI/CD 연동</div>
 
-  <div style="background:#f5f3ef; border:1px solid #d6d3d1; border-radius:10px; padding:18px; text-align:center;">
-    <strong style="color:#57534e; font-size:17px;">스크린샷 저장</strong><br>
-    <span style="color:#78716c;">증적 · 회귀 비교용</span>
-  </div>
-</div>
-
-<div style="text-align:center; font-size:28px; color:#6b7280;">↓</div>
-
-<div style="text-align:center; font-size:13px; color:#6b7280; margin:8px 0;">
-  ⑤ CI/CD 연동
-</div>
-
-<div style="background:#eef2ff; border:1px solid #a5b4fc; border-radius:10px; padding:20px; text-align:center;">
-  <strong style="color:#3730a3; font-size:18px;">GitHub Actions / Jenkins 자동 실행</strong><br>
-  <span style="color:#4338ca;">배포 전 자동 검증 · 고지 페이지 변경 감지 트리거</span>
-</div>
-
-
+    <div class="box indigo">
+      <strong>GitHub Actions / Jenkins 자동 실행</strong>
+      <span>배포 전 자동 검증 · 고지 페이지 변경 감지 트리거</span>
+    </div>
   </div>
 
   <div class="card">
@@ -306,100 +399,96 @@ width: calc(100% - 340px);
   </div>
 </section>
 
+<section id="flow">
+  <h2>04. 실행 흐름</h2>
 
-</div>
-
-
+  <div class="card">
+    <ol>
+      <li>기획서 또는 디자인 문서를 확인한다.</li>
+      <li>검증해야 할 UI, 정책, 예외 케이스를 정리한다.</li>
+      <li>테스트케이스를 작성하거나 기존 TC를 업로드한다.</li>
+      <li>자동화 가능한 항목과 수동 검증 항목을 분리한다.</li>
+      <li>자동화 스크립트를 실행한다.</li>
+      <li>결과 리포트를 확인하고 결함을 등록한다.</li>
+    </ol>
+  </div>
 </section>
 
-        <h2>04. 실행 흐름</h2>
+<section id="tc">
+  <h2>05. 테스트케이스 예시</h2>
 
-        <div class="card">
-          <ol>
-            <li>기획서 또는 디자인 문서를 확인한다.</li>
-            <li>검증해야 할 UI, 정책, 예외 케이스를 정리한다.</li>
-            <li>테스트케이스를 작성하거나 기존 TC를 업로드한다.</li>
-            <li>자동화 가능한 항목과 수동 검증 항목을 분리한다.</li>
-            <li>자동화 스크립트를 실행한다.</li>
-            <li>결과 리포트를 확인하고 결함을 등록한다.</li>
-          </ol>
-        </div>
-      </section>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>검증 항목</th>
+        <th>기대 결과</th>
+        <th>자동화 가능 여부</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TC-001</td>
+        <td>페이지 진입</td>
+        <td>정상적으로 페이지가 노출된다.</td>
+        <td>가능</td>
+      </tr>
+      <tr>
+        <td>TC-002</td>
+        <td>고지 문구 확인</td>
+        <td>기획서와 동일한 문구가 노출된다.</td>
+        <td>가능</td>
+      </tr>
+      <tr>
+        <td>TC-003</td>
+        <td>버튼 클릭</td>
+        <td>정상 페이지로 이동한다.</td>
+        <td>가능</td>
+      </tr>
+      <tr>
+        <td>TC-004</td>
+        <td>디자인 정합성</td>
+        <td>Figma 기준과 레이아웃이 일치한다.</td>
+        <td>부분 가능</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
 
-      <section id="tc">
-        <h2>05. 테스트케이스 예시</h2>
+<section id="risk">
+  <h2>06. 리스크</h2>
 
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>검증 항목</th>
-              <th>기대 결과</th>
-              <th>자동화 가능 여부</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>TC-001</td>
-              <td>페이지 진입</td>
-              <td>정상적으로 페이지가 노출된다.</td>
-              <td>가능</td>
-            </tr>
-            <tr>
-              <td>TC-002</td>
-              <td>고지 문구 확인</td>
-              <td>기획서와 동일한 문구가 노출된다.</td>
-              <td>가능</td>
-            </tr>
-            <tr>
-              <td>TC-003</td>
-              <td>버튼 클릭</td>
-              <td>정상 페이지로 이동한다.</td>
-              <td>가능</td>
-            </tr>
-            <tr>
-              <td>TC-004</td>
-              <td>디자인 정합성</td>
-              <td>Figma 기준과 레이아웃이 일치한다.</td>
-              <td>부분 가능</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="risk">
-        <h2>06. 리스크</h2>
-
-        <div class="card risk">
-          <ul>
-            <li>기획서 변경 시 TC와 자동화 스크립트가 함께 수정되어야 합니다.</li>
-            <li>디자인 변경 시 이미지 기반 검증이 실패할 수 있습니다.</li>
-            <li>환경별 URL, 계정, 권한 조건을 별도로 관리해야 합니다.</li>
-            <li>자동화가 어려운 영역은 수동 QA 검증 기준을 유지해야 합니다.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="next">
-        <h2>07. Next Step</h2>
-
-        <div class="card">
-          <p>다음 단계에서는 아래 기능을 추가할 수 있습니다.</p>
-
-          <ul>
-            <li>Mermaid 기반 아키텍처 다이어그램</li>
-            <li>QA 체크리스트 페이지 분리</li>
-            <li>자동화 결과 리포트 페이지</li>
-            <li>다크모드</li>
-            <li>검색 기능</li>
-          </ul>
-        </div>
-      </section>
-
-      <footer>
-        © 2026 QA Process Design. Published with GitHub Pages.
-      </footer>
-    </main>
+  <div class="card risk">
+    <ul>
+      <li>기획서 변경 시 TC와 자동화 스크립트가 함께 수정되어야 합니다.</li>
+      <li>디자인 변경 시 이미지 기반 검증이 실패할 수 있습니다.</li>
+      <li>환경별 URL, 계정, 권한 조건을 별도로 관리해야 합니다.</li>
+      <li>자동화가 어려운 영역은 수동 QA 검증 기준을 유지해야 합니다.</li>
+    </ul>
   </div>
+</section>
+
+<section id="next">
+  <h2>07. Next Step</h2>
+
+  <div class="card">
+    <p>다음 단계에서는 아래 기능을 추가할 수 있습니다.</p>
+
+    <ul>
+      <li>Mermaid 기반 아키텍처 다이어그램</li>
+      <li>QA 체크리스트 페이지 분리</li>
+      <li>자동화 결과 리포트 페이지</li>
+      <li>다크모드</li>
+      <li>검색 기능</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  © 2026 QA Process Design. Published with GitHub Pages.
+</footer>
+```
+
+  </main>
 </body>
 </html>
