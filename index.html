@@ -17,7 +17,13 @@
       background: #f5f7fb;
       color: #1f2937;
     }
-
+    
+.layout {
+  display: flex;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+    
 .sidebar {
 width: 280px;
 min-height: 100vh;
@@ -25,7 +31,7 @@ background: #111827;
 color: white;
 padding: 32px 24px;
 overflow-y: auto;
-flex-shrink: 0;
+flex: 0 0 280px;
 }
 
     .sidebar h2 {
@@ -50,10 +56,11 @@ flex-shrink: 0;
       color: white;
     }
 
-   .content {
-padding: 48px;
-width: 100%;
-max-width: 1200px;
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 48px;
+  max-width: none;
 }
 
     section {
