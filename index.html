@@ -1,11 +1,309 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>QA Process Design</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QA Process Design</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    .layout {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 260px;
+      height: 100vh;
+      position: fixed;
+      background: #111827;
+      color: white;
+      padding: 32px 24px;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .sidebar p {
+      color: #9ca3af;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #d1d5db;
+      text-decoration: none;
+      padding: 10px 0;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .sidebar a:hover {
+      color: white;
+    }
+
+    .content {
+      margin-left: 308px;
+      padding: 48px;
+      max-width: 1100px;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-right: 6px;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
+    .risk {
+      border-left: 6px solid #ef4444;
+    }
+
+    .ok {
+      border-left: 6px solid #22c55e;
+    }
+
+    footer {
+      color: #6b7280;
+      font-size: 13px;
+      padding-bottom: 40px;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>안녕하세요 👋</h1>
-    <h2>Web Page Process Design</h2>
-    <p>첫 GitHub Pages 테스트입니다.</p>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>QA Process Design</h2>
+      <p>Web QA Automation Specification</p>
+
+      <a href="#overview">01. 개요</a>
+      <a href="#goal">02. 목표</a>
+      <a href="#architecture">03. 아키텍처</a>
+      <a href="#flow">04. 실행 흐름</a>
+      <a href="#tc">05. 테스트케이스</a>
+      <a href="#risk">06. 리스크</a>
+      <a href="#next">07. Next Step</a>
+    </aside>
+
+    <main class="content">
+      <section id="overview">
+        <h1>Web QA Automation Process Design</h1>
+        <p class="subtitle">
+          기획서, 디자인, 테스트케이스 기반의 QA 자동화 프로세스 설계 문서
+        </p>
+
+        <div class="card">
+          <span class="badge">QA</span>
+          <span class="badge">Automation</span>
+          <span class="badge">GitHub Pages</span>
+
+          <p>
+            본 문서는 웹 페이지 QA 자동화를 위한 기본 프로세스, 테스트 범위,
+            실행 구조, 리스크 및 개선 방향을 정리하기 위한 문서입니다.
+          </p>
+        </div>
+      </section>
+
+      <section id="goal">
+        <h2>02. 목표</h2>
+
+        <div class="grid">
+          <div class="card ok">
+            <h3>TC 표준화</h3>
+            <p>기획서와 디자인 기준으로 테스트케이스를 구조화합니다.</p>
+          </div>
+
+          <div class="card ok">
+            <h3>자동 실행</h3>
+            <p>반복 검증 항목을 Playwright, Cypress 등으로 자동화합니다.</p>
+          </div>
+
+          <div class="card ok">
+            <h3>리포트 생성</h3>
+            <p>Pass / Fail / Block 결과를 자동으로 기록합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <h2>03. 시스템 아키텍처</h2>
+
+        <div class="card">
+          <pre>
+기획서 / 디자인 / 기존 TC
+        ↓
+QA 검증 포인트 추출
+        ↓
+테스트케이스 구조화
+        ↓
+자동화 스크립트 생성
+        ↓
+테스트 실행
+        ↓
+결과 리포트 생성
+          </pre>
+        </div>
+      </section>
+
+      <section id="flow">
+        <h2>04. 실행 흐름</h2>
+
+        <div class="card">
+          <ol>
+            <li>기획서 또는 디자인 문서를 확인한다.</li>
+            <li>검증해야 할 UI, 정책, 예외 케이스를 정리한다.</li>
+            <li>테스트케이스를 작성하거나 기존 TC를 업로드한다.</li>
+            <li>자동화 가능한 항목과 수동 검증 항목을 분리한다.</li>
+            <li>자동화 스크립트를 실행한다.</li>
+            <li>결과 리포트를 확인하고 결함을 등록한다.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="tc">
+        <h2>05. 테스트케이스 예시</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>검증 항목</th>
+              <th>기대 결과</th>
+              <th>자동화 가능 여부</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TC-001</td>
+              <td>페이지 진입</td>
+              <td>정상적으로 페이지가 노출된다.</td>
+              <td>가능</td>
+            </tr>
+            <tr>
+              <td>TC-002</td>
+              <td>고지 문구 확인</td>
+              <td>기획서와 동일한 문구가 노출된다.</td>
+              <td>가능</td>
+            </tr>
+            <tr>
+              <td>TC-003</td>
+              <td>버튼 클릭</td>
+              <td>정상 페이지로 이동한다.</td>
+              <td>가능</td>
+            </tr>
+            <tr>
+              <td>TC-004</td>
+              <td>디자인 정합성</td>
+              <td>Figma 기준과 레이아웃이 일치한다.</td>
+              <td>부분 가능</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="risk">
+        <h2>06. 리스크</h2>
+
+        <div class="card risk">
+          <ul>
+            <li>기획서 변경 시 TC와 자동화 스크립트가 함께 수정되어야 합니다.</li>
+            <li>디자인 변경 시 이미지 기반 검증이 실패할 수 있습니다.</li>
+            <li>환경별 URL, 계정, 권한 조건을 별도로 관리해야 합니다.</li>
+            <li>자동화가 어려운 영역은 수동 QA 검증 기준을 유지해야 합니다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2>07. Next Step</h2>
+
+        <div class="card">
+          <p>다음 단계에서는 아래 기능을 추가할 수 있습니다.</p>
+
+          <ul>
+            <li>Mermaid 기반 아키텍처 다이어그램</li>
+            <li>QA 체크리스트 페이지 분리</li>
+            <li>자동화 결과 리포트 페이지</li>
+            <li>다크모드</li>
+            <li>검색 기능</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        © 2026 QA Process Design. Published with GitHub Pages.
+      </footer>
+    </main>
+  </div>
 </body>
 </html>
